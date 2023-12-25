@@ -1,8 +1,16 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+
+// import { useEffect } from 'react';
+import { useAtomValue } from 'jotai';
+import { sessionAtom } from '@/lib/atoms/session.atoms';
+import { Redirect } from 'expo-router';
+
+// Components
 import { Link, Tabs } from 'expo-router';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Pressable, useColorScheme } from 'react-native';
 
-import Colors from '../../constants/Colors';
+// Constants
+import Colors from '@constants/Colors';
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -15,7 +23,11 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+  const session = useAtomValue(sessionAtom);
   const colorScheme = useColorScheme();
+
+  if(!session) return <Redirect href="/auth" />;
+  // console.log('session', JSON.stringify(session, null, 2));
 
   return (
     <Tabs
